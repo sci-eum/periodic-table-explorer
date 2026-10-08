@@ -9,3 +9,6 @@ desktop.ini
 # Vercel 연결 정보
 .vercel/
 .env*.local
+
+# 도름스체크 점검 결과(로컬 보관)
+.dorms-check/
