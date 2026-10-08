@@ -22,6 +22,37 @@
 
 설치할 것은 없어요. `index.html`을 더블클릭하면 인터넷 없이도 열려요.
 
+## 바탕화면 배경으로 쓰기
+
+`wallpaper.html`은 클릭 없이 저절로 움직이는 바탕화면용 화면이에요.
+
+- 원소 하나가 20초마다 빛나고, 오른쪽에 보어 원자 모형과 원소 이야기가 나와요.
+- 표는 90초마다 원소 분류 → 온도와 상태 → 주기적 성질 → 발견의 역사 순으로 바뀌어요.
+- 왼쪽 여백은 바탕화면 아이콘, 아래 여백은 작업 표시줄 자리예요.
+
+**주소:** https://periodic-table-explorer-liard.vercel.app/wallpaper.html
+
+### Windows에 설정하기 (Lively Wallpaper, 무료)
+
+1. Microsoft Store에서 **Lively Wallpaper**를 설치해요.
+2. Lively를 열고 **+** (배경화면 추가)를 눌러요.
+3. 주소 칸에 위 주소를 넣고 화살표를 눌러요.
+4. 목록에 생긴 배경화면을 누르면 바탕화면에 적용돼요.
+
+인터넷 없이 쓰려면 3번에서 주소 대신 이 폴더의 `wallpaper.html` 파일을 고르면 돼요.
+다른 프로그램을 전체 화면으로 쓰는 동안에는 Lively가 배경화면을 멈춰 컴퓨터 자원을 아껴요.
+
+### 주소 옵션
+
+주소 뒤에 붙여서 바꿀 수 있어요. 예: `wallpaper.html?speed=30&view=120`
+
+| 옵션 | 뜻 | 기본값 |
+| --- | --- | --- |
+| `speed` | 원소가 바뀌는 간격(초, 5–600) | 20 |
+| `view` | 보기가 바뀌는 간격(초, 20–3600) | 90 |
+| `views` | 보여 줄 보기와 순서 (`category`, `state`, `trend`, `discovery`를 쉼표로) | 네 가지 모두 |
+| `order` | `seq`로 하면 1번부터 원자 번호 순서 | 무작위 |
+
 ## 파일 구성
 
 ```
@@ -30,6 +61,9 @@ css/style.css           디자인
 js/data.js              원소 자료와 원소별 이야기
 js/core.js              자료 가공, 표, 미리보기, 상세 창
 js/modes.js             보기 방식(분류·온도·성질·발견·퀴즈)
+wallpaper.html          바탕화면용 움직이는 주기율표
+css/wallpaper.css       바탕화면 디자인
+js/wallpaper.js         바탕화면 스포트라이트와 보기 자동 전환
 fonts/tamheom-sans.js   글꼴(Pretendard 서브셋)
 ```
 
