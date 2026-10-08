@@ -5,3 +5,7 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Vercel 연결 정보
+.vercel/
+.env*.local

@@ -1,0 +1,167 @@
+/* 주기율표 배경화면 — 1600×900 무대를 화면에 맞춰 확대해요. 왼쪽 130px은 바탕화면 아이콘, 아래 70px은 작업 표시줄 자리예요.
+   색 토큰은 css/style.css의 어두운 테마와 같아요. */
+:root{
+  --bg:#0B0A11; --surface:#1A1723; --surface-2:#24202F; --surface-3:#312C3F;
+  --ink:#F2EFF8; --ink-2:#BBB5CC; --ink-3:#857F9A;
+  --primary:#D070FB; --primary-strong:#E2A3FF; --on-primary:#1C0727; --electron:#E39CFF;
+  --c-am:#FF6B6B; --c-ae:#FF9F45; --c-tm:#F2C94C; --c-pt:#52C48A; --c-md:#A3C43C;
+  --c-nm:#3FA9F5; --c-hl:#22C7C2; --c-ng:#D070FB; --c-ln:#FF78BD; --c-an:#9A8CFF; --c-uk:#A8A3B6;
+  --tint:30%; --sym-mix:62%;
+  --solid:#9A97C9; --liquid:#4CC6E6; --gas:#FF9B7A;
+  --heat-lo:#2A2236; --heat-hi:#C47CF2;
+  --font:"Tamheom Sans","Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --ease:cubic-bezier(.22,.8,.24,1);
+  --spring:cubic-bezier(.2,.9,.3,1.25);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden}
+body{
+  background:
+    radial-gradient(60% 70% at 38% 45%,#1B1428 0%,transparent 70%),
+    radial-gradient(40% 50% at 85% 40%,#1A1230 0%,transparent 70%),
+    var(--bg);
+  color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;
+  cursor:default;user-select:none;
+}
+
+.stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:center}
+
+/* ---------- 머리 ---------- */
+.brand{position:absolute;left:130px;top:44px;width:960px;display:flex;align-items:center;gap:14px}
+.logo{width:44px;height:44px;border-radius:14px;background:var(--surface);display:grid;place-items:center}
+.logo svg{width:32px;height:32px;overflow:visible}
+.logo-orbits ellipse{fill:none;stroke:var(--primary-strong);stroke-width:1.6;opacity:.55}
+.logo-nuc{fill:var(--primary)}
+.logo-e{fill:var(--primary-strong)}
+.logo-spin{animation:spin 3.2s linear infinite}
+.brand-name{margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em}
+.views{margin:0 0 0 auto;padding:0;list-style:none;display:flex;gap:6px}
+.views li{display:flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:650;color:var(--ink-3);background:transparent;transition:background .6s var(--ease),color .6s var(--ease)}
+.views li i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.6}
+.views li.on{background:var(--surface-2);color:var(--ink)}
+.views li.on i{background:var(--primary);opacity:1;box-shadow:0 0 10px var(--primary)}
+
+/* ---------- 주기율표 ---------- */
+.board{position:absolute;left:130px;top:118px;width:960px;height:700px;display:grid;align-content:center}
+.wt{display:grid;grid-template-columns:22px repeat(18,1fr);grid-template-rows:20px repeat(7,52px) 16px repeat(2,52px);gap:5px}
+.hdr{display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.flabel{grid-column:1/4;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-size:11px;font-weight:700;color:var(--ink-3)}
+
+.cell,.ph{
+  --c:var(--cat);
+  --bgc:color-mix(in oklab,var(--c) var(--tint),var(--surface));
+  position:relative;border-radius:9px;background:var(--bgc);overflow:hidden;
+  transition:background-color 1.2s var(--ease),opacity 1.2s var(--ease),transform .8s var(--spring),box-shadow .8s var(--ease);
+}
+.cell .num{position:absolute;left:5px;top:3px;font-size:9.5px;font-weight:700;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.cell .sym{position:absolute;left:0;right:0;top:12px;text-align:center;font-size:19px;font-weight:800;letter-spacing:-.02em;color:color-mix(in oklab,var(--c) var(--sym-mix),#fff)}
+.cell .name{position:absolute;left:2px;right:2px;bottom:4px;text-align:center;font-size:9px;font-weight:600;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:clip}
+.ph{display:grid;place-content:center;text-align:center;opacity:.75}
+.ph b{font-size:11px;font-weight:800;color:color-mix(in oklab,var(--c) var(--sym-mix),#fff)}
+.ph span{font-size:8.5px;font-weight:600;color:var(--ink-2)}
+
+/* 스포트라이트 원소 */
+.cell.lit{z-index:2;transform:scale(1.22);box-shadow:0 0 0 2px color-mix(in oklab,var(--c) 85%,#fff),0 0 26px 4px color-mix(in oklab,var(--c) 70%,transparent);opacity:1!important}
+.cell.lit::after{content:"";position:absolute;inset:-2px;border-radius:inherit;background:radial-gradient(circle at 50% 40%,color-mix(in oklab,var(--c) 45%,transparent),transparent 70%);animation:glow 2.4s ease-in-out infinite}
+
+/* 온도와 상태 */
+.wt[data-view="state"] .cell{--c:var(--solid)}
+.wt[data-view="state"] .cell[data-ph="liquid"]{--c:var(--liquid)}
+.wt[data-view="state"] .cell[data-ph="gas"]{--c:var(--gas)}
+.wt[data-view="state"] .cell[data-ph="unknown"]{--c:var(--c-uk);opacity:.35}
+.wt[data-view="state"] .cell[data-ph="gas"] .sym{animation:float 3s ease-in-out infinite;animation-delay:calc(var(--i) * -97ms)}
+
+/* 주기적 성질 */
+.wt[data-view="trend"] .cell{--bgc:color-mix(in oklab,var(--heat-hi) calc(var(--t,0) * 100%),var(--heat-lo))}
+.wt[data-view="trend"] .cell .sym{color:#fff}
+.wt[data-view="trend"] .cell.na{opacity:.3}
+.wt[data-view="trend"] .ph,.wt[data-view="state"] .ph{--c:var(--c-uk);opacity:.35}
+
+/* 발견의 역사 */
+.wt[data-view="discovery"] .cell.ghost{opacity:.07}
+.wt[data-view="discovery"] .cell.ghost.lit{opacity:.9!important;background:var(--surface);outline:1.5px dashed color-mix(in oklab,var(--c) 70%,#fff);outline-offset:-3px}
+.cell.born{animation:born .9s var(--spring) both}
+
+/* 범례(표 가운데 빈 자리) */
+.legend{grid-column:4/14;grid-row:2/5;align-self:stretch;padding:4px 14px 0;display:flex;flex-direction:column;gap:8px;animation:paneIn .9s var(--ease)}
+.lg-title{margin:0;display:flex;align-items:baseline;gap:10px;font-size:20px;font-weight:800}
+.lg-title small{font-size:12.5px;font-weight:650;color:var(--ink-3)}
+.lg-chips{display:flex;flex-wrap:wrap;gap:5px 6px}
+.lg-chip{display:inline-flex;align-items:center;gap:6px;padding:3px 9px 3px 7px;border-radius:999px;background:var(--surface);font-size:11.5px;font-weight:650;color:var(--ink-2)}
+.lg-chip i{width:9px;height:9px;border-radius:3px;background:var(--c)}
+.lg-big{display:flex;align-items:baseline;gap:12px}
+.lg-big b{font-size:34px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.lg-big span{font-size:14px;font-weight:650;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.lg-text{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink-2);text-wrap:pretty}
+.lg-text b{color:var(--ink);margin-right:6px}
+.lg-ramp{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:650;color:var(--ink-3)}
+.lg-ramp i{width:150px;height:8px;border-radius:99px;background:linear-gradient(90deg,var(--heat-lo),var(--heat-hi))}
+.thermo{height:6px;border-radius:99px;background:linear-gradient(90deg,#8ED8F5,#C9B6FF 45%,#FF8A65);position:relative}
+.thermo i{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px var(--bg),0 0 12px #fff;left:calc(var(--p,0) * 100%)}
+
+/* ---------- 스포트라이트 ---------- */
+.spot{
+  --c:var(--primary);
+  position:absolute;left:1124px;top:40px;width:436px;height:790px;padding:26px 28px;border-radius:28px;
+  background:linear-gradient(170deg,color-mix(in oklab,var(--c) 14%,var(--surface)) 0%,var(--surface) 45%);
+  box-shadow:0 0 0 1px color-mix(in oklab,var(--c) 30%,transparent),0 30px 70px -14px rgba(0,0,0,.75),0 0 80px -20px color-mix(in oklab,var(--c) 45%,transparent);
+  display:flex;flex-direction:column;gap:16px;overflow:hidden;
+  transition:background .9s var(--ease),box-shadow .9s var(--ease);
+}
+.spot > *{animation:spotIn .8s var(--ease) both}
+.spot > :nth-child(2){animation-delay:.06s}
+.spot > :nth-child(3){animation-delay:.12s}
+.spot > :nth-child(4){animation-delay:.18s}
+.spot > :nth-child(5){animation-delay:.24s}
+.spot.out > *{animation:spotOut .45s var(--ease) both}
+
+.sp-top{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--ink-3)}
+.sp-bar{flex:1;height:3px;border-radius:99px;background:var(--surface-3);overflow:hidden}
+.sp-bar i{display:block;height:100%;width:100%;background:var(--c);transform-origin:left;animation:bar var(--dur,20s) linear both}
+
+.sp-head{display:flex;gap:18px;align-items:center}
+.sp-tile{width:104px;height:116px;flex:none;border-radius:20px;position:relative;background:color-mix(in oklab,var(--c) 34%,var(--surface-2));box-shadow:inset 0 0 0 1.5px color-mix(in oklab,var(--c) 60%,transparent)}
+.sp-tile .n{position:absolute;left:11px;top:8px;font-size:14px;font-weight:800;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.sp-tile .s{position:absolute;inset:0;display:grid;place-items:center;font-size:48px;font-weight:850;letter-spacing:-.03em;color:color-mix(in oklab,var(--c) 55%,#fff)}
+.sp-tile .m{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:11.5px;font-weight:650;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.sp-titles{min-width:0}
+.sp-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 8px;border-radius:999px;background:color-mix(in oklab,var(--c) 20%,var(--surface-2));font-size:12px;font-weight:700;color:color-mix(in oklab,var(--c) 45%,#fff)}
+.sp-badge i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.sp-name{margin:8px 0 2px;font-size:34px;font-weight:850;letter-spacing:-.02em;line-height:1.15}
+.sp-name small{font-size:16px;font-weight:650;color:var(--ink-3);margin-left:6px}
+.sp-en{margin:0;font-size:13.5px;font-weight:600;color:var(--ink-3)}
+
+.sp-atom{display:flex;flex-direction:column;align-items:center;gap:10px}
+.bohr{width:248px;height:248px;overflow:visible}
+.ring{fill:none;stroke:color-mix(in oklab,var(--ink-3) 40%,transparent);stroke-width:1}
+.orbit{transform-box:fill-box;transform-origin:center;animation:spin var(--dur) linear infinite}
+.orbit.rev{animation-direction:reverse}
+.e{fill:var(--electron);stroke:var(--surface);stroke-width:1.2;transform-box:fill-box;transform-origin:center;animation:eIn .45s var(--spring) backwards}
+.nuc{stroke:var(--surface-2);stroke-width:2}
+.nuc-t{font-size:12px;font-weight:800;fill:var(--ink);text-anchor:middle;dominant-baseline:central}
+.shl{font-size:9.5px;fill:var(--ink-3);font-weight:700;paint-order:stroke;stroke:var(--surface);stroke-width:3px;dominant-baseline:central}
+.shells{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
+.shells span{padding:3px 9px;border-radius:9px;background:var(--surface-2);font-size:12px;font-weight:650;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.shells span.outer{background:color-mix(in oklab,var(--c) 30%,var(--surface-2));color:var(--ink)}
+
+.sp-fact{margin:0;padding:14px 16px;border-radius:16px;background:var(--surface-2);font-size:14px;line-height:1.6;color:var(--ink);text-wrap:pretty}
+.sp-fact b{display:block;margin-bottom:3px;font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--ink-3)}
+.sp-kv{margin:0;display:grid;gap:8px}
+.sp-kv div{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding-bottom:8px;border-bottom:1px solid var(--surface-3)}
+.sp-kv div:last-child{border-bottom:0;padding-bottom:0}
+.sp-kv dt{font-size:12.5px;font-weight:650;color:var(--ink-3);flex:none}
+.sp-kv dd{margin:0;font-size:13.5px;font-weight:650;text-align:right;font-variant-numeric:tabular-nums}
+.sp-kv dd b{color:color-mix(in oklab,var(--c) 45%,#fff)}
+.sp-kv sup{font-size:.7em}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes eIn{from{opacity:0;transform:scale(0)}}
+@keyframes born{0%{transform:scale(.3);opacity:0;box-shadow:0 0 0 0 color-mix(in oklab,var(--c) 85%,transparent)}55%{transform:scale(1.15);opacity:1}100%{transform:none;box-shadow:0 0 0 14px transparent}}
+@keyframes glow{50%{opacity:.35}}
+@keyframes float{50%{transform:translateY(-2px)}}
+@keyframes bar{from{transform:scaleX(0)}}
+@keyframes paneIn{from{opacity:0;transform:translateY(8px)}}
+@keyframes spotIn{from{opacity:0;transform:translateY(10px)}}
+@keyframes spotOut{to{opacity:0;transform:translateY(-6px)}}
